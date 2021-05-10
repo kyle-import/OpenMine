@@ -1,6 +1,8 @@
 # OpenMine
 A lightweight & open-source minecraft account checker for educational purposes.
 
+![](img/checkgui.png)
+
 ### Windows installation
 
 You will have to have a few things installed before running the checker. This installation guide assumes that you are on a 64bit Windows system.
@@ -26,7 +28,7 @@ OpenMine, a fork of Minecraft Account Checker, implements preliminary support fo
 - Saving Minecraft account usernames 
 - User-friendly CLI.
 
-# Current issues
+### Current issues
 - Need a lot of cleanup + more stable CLI updates that don't rely on tick-based updating. 
 - Ratelimited proxies will be reused because we can't understand how to properly detect when a proxy is ratelimited by Mojang's API (we'll fix it soon)
 
