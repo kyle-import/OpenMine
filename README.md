@@ -1,7 +1,7 @@
 # OpenMine
 A lightweight & open-source minecraft account checker for educational purposes.
 
-OpenMine will check if all the account credentials (username:password) provided are valid or invalid for Minecraft.
+OpenMine will check if all the account credentials (email:password) provided are valid or invalid for Minecraft.
 
 ### Windows installation
 
