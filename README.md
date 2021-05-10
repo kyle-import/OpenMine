@@ -23,7 +23,7 @@ Once you have opened the installer, make sure that you add Python to path. Your 
 ### Information
 A simple python account checker for python using their new API.
 
-OpenMine, a fork of Minecraft Account Checker, implements support for checking/using HTTP or HTTPS proxies and saving Minecraft account usernames while utilizing a userfriendly CLI.
+OpenMine, a fork of Minecraft Account Checker, implements support for checking/using HTTP or HTTPS proxies and saving Minecraft account usernames while utilizing a user-friendly CLI.
 
 ### Usage
 1. Load your combos inside of 'combo.txt'
