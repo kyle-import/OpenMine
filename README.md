@@ -29,6 +29,6 @@ OpenMine, a fork of Minecraft Account Checker, implements support for checking/u
 1. Load your combos inside of 'combo.txt'
 2. Load your proxy list inside of 'proxies.txt' *optional
 3. Run python script.py
-4. Enter threads (Best to do 500 or under)
+4. Enter threads
 5. Sit back and relax, all valid account credentials will be outputted to Valid.txt
 
