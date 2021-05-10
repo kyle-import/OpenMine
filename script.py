@@ -2,6 +2,7 @@ import threading, requests, json
 import ctypes, time, os, sys, msvcrt
 from colorama import Fore, init, Style
 from requests.exceptions import ConnectionError
+from json.decoder import JSONDecodeError
 
 if os.name == 'nt':
     os.system("mode con cols=100 lines=35")
@@ -128,7 +129,7 @@ class Minecraft:
                     self.valid += 1
                     self.ticker += 1
                     self.title()
-                    if self.ticker == 8:
+                    if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
                     
@@ -136,7 +137,7 @@ class Minecraft:
                     self.invalid += 1
                     self.ticker += 1
                     self.title()
-                    if self.ticker == 8:
+                    if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
                     
@@ -145,16 +146,33 @@ class Minecraft:
                 if self.checkproxies == 'y':
                     self.ticker += 1
                     self.title()
-                    if self.ticker == 8:
+                    if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
                     self.workingproxies.pop(0)
                 else:
                     self.ticker += 1
                     self.title()
-                    if self.ticker == 8:
+                    if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
+
+            except JSONDecodeError:
+                self.connectionerror += 1
+                if self.checkproxies == 'y':
+                    self.ticker += 1
+                    self.title()
+                    if self.ticker >= 8:
+                        self.ticker = 0
+                        self.update_proxyon()
+                    self.workingproxies.pop(0)
+                else:
+                    self.ticker += 1
+                    self.title()
+                    if self.ticker >= 8:
+                        self.ticker = 0
+                        self.update_proxyon()
+
                     
         else:
             data = json.dumps({"agent":{"name":"Minecraft","version":1}, "username":username,"password":password,"requestUser":"true"})
@@ -171,7 +189,7 @@ class Minecraft:
                     self.valid += 1
                     self.ticker += 1
                     self.title()
-                    if self.ticker == 8:
+                    if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyoff()
                     
@@ -179,7 +197,7 @@ class Minecraft:
                     self.invalid += 1
                     self.ticker += 1
                     self.title()
-                    if self.ticker == 8:
+                    if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyoff()
                     
@@ -187,10 +205,17 @@ class Minecraft:
                 self.connectionerror += 1
                 self.ticker += 1
                 self.title()
-                if self.ticker == 8:
+                if self.ticker >= 8:
                     self.ticker = 0
                     self.update_proxyoff()
 
+            except JSONDecodeError:
+                self.connectionerror += 1
+                self.ticker += 1
+                self.title()
+                if self.ticker >= 8:
+                    self.ticker = 0
+                    self.update_proxyoff()
 
     def start_checking(self):
         def combo_thread_starter():
@@ -220,7 +245,11 @@ class Minecraft:
             self.update_proxyon()
         else:
             self.update_proxyoff()
-        input(f'Checking {bcolors.UNDERLINE}finished{bcolors.ENDC}, press any key to exit...')
+        try:
+            input(f'Checking {bcolors.UNDERLINE}finished{bcolors.ENDC}, press any key to exit...')
+        except EOFError:
+            pass
+
 
     def main(self):
         os.system('cls' if os.name == 'nt' else 'clear')
