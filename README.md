@@ -1,8 +1,6 @@
 # OpenMine
 A lightweight & open-source minecraft account checker for educational purposes.
 
-OpenMine will check if all the account credentials (email:password) provided are valid or invalid for Minecraft.
-
 ### Windows installation
 
 You will have to have a few things installed before running the checker. This installation guide assumes that you are on a 64bit Windows system.
@@ -21,13 +19,20 @@ Once you have opened the installer, make sure that you add Python to path. Your 
 
 
 ### Information
-A simple python account checker for python using their new API.
+OpenMine will check if all the account credentials (email:password) provided are valid or invalid for Minecraft.
 
-OpenMine, a fork of Minecraft Account Checker, implements support for checking/using HTTP or HTTPS proxies and saving Minecraft account usernames while utilizing a user-friendly CLI.
+OpenMine, a fork of Minecraft Account Checker, implements preliminary support for 
+- Checking/using HTTP or HTTPS proxies 
+- Saving Minecraft account usernames 
+- User-friendly CLI.
+
+# Current issues
+- Need a lot of cleanup + more stable CLI updates that don't rely on tick-based updating. 
+- Ratelimited proxies will be reused because we can't understand how to properly detect when a proxy is ratelimited by Mojang's API (we'll fix it soon)
 
 ### Usage
 1. Load your combos inside of 'combo.txt'
-2. Load your proxy list inside of 'proxies.txt' *optional
+2. **(optional)** Load your proxy list inside of 'proxies.txt' 
 3. Run python script.py
 4. Enter threads
 5. Sit back and relax, all valid account credentials will be outputted to Valid.txt
