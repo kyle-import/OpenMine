@@ -69,8 +69,13 @@ class Minecraft:
         update_title("Minecraft Account Checker | Error"); print("{}Error\n{}No proxy file found: 'combo.txt'".format(Fore.YELLOW, Fore.WHITE)); time.sleep(10); exit()
     
     def get_latest_proxy(self):
-        latest_proxy = self.workingproxies[0]
-        return latest_proxy
+        try:
+            latest_proxy = self.workingproxies[0]
+            return latest_proxy
+        except IndexError:
+            self.combocounter += len(self.usernames)
+            return '0.0.0.0:00000'
+            
 
     def log(text):
         livetime = '['+strftime("%Y-%m-%d %H:%M:%S", gmtime())+'] '
@@ -88,8 +93,7 @@ class Minecraft:
 ╚██████╔╝██║     ███████╗██║ ╚████║██║ ╚═╝ ██║██║██║ ╚████║███████╗
  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
 Version v1.0
-A lightweight & open-source minecraft account checker for educational purposes.
-
+A lightweight & open-source minecraft account checker for educational purposes.\n
 HTTP/HTTPS PROXY IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC} - {bcolors.UNDERLINE}{activeip}:{activeport}{bcolors.ENDC}
 OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.
                       [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.
@@ -105,8 +109,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
 ╚██████╔╝██║     ███████╗██║ ╚████║██║ ╚═╝ ██║██║██║ ╚████║███████╗
  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
 Version v1.0
-A lightweight & open-source minecraft account checker for educational purposes.
-
+A lightweight & open-source minecraft account checker for educational purposes.\n
 SOCKS4 PROXY IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC} - {bcolors.UNDERLINE}{activeip}:{activeport}{bcolors.ENDC}
 OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.
                       [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.
@@ -127,8 +130,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
 ╚██████╔╝██║     ███████╗██║ ╚████║██║ ╚═╝ ██║██║██║ ╚████║███████╗
  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
 Version v1.0
-A lightweight & open-source minecraft account checker for educational purposes.
-
+A lightweight & open-source minecraft account checker for educational purposes.\n
 PROXYLESS IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC}\n
 OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.
                       [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.
@@ -196,7 +198,10 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                     if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyon()
-                    self.workingproxies.pop(0)
+                    try:
+                        self.workingproxies.pop(0)
+                    except IndexError:
+                        pass
                 else:
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
@@ -212,7 +217,10 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                     if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyon()
-                    self.workingproxies.pop(0)
+                    try:
+                        self.workingproxies.pop(0)
+                    except IndexError:
+                        pass
                 else:
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
@@ -220,10 +228,6 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                         self.ticker = 0
                         self.update_proxyon()
 
-            except IndexError:
-                input(f'Ran out of {bcolors.WARNING}working proxies{bcolors.ENDC}, press any key to exit...')
-                exit()
-                
 
                     
         else:
@@ -271,7 +275,10 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
 
     def start_checking(self):
         def combo_thread_starter():
-            self.check_account(self.usernames[self.combocounter], self.passwords[self.combocounter])
+            try:
+                self.check_account(self.usernames[self.combocounter], self.passwords[self.combocounter])
+            except IndexError:
+                pass
         if self.checkproxies == 'y':
             def proxy_thread_starter():
                 self.check_proxies(self.ip[self.proxycounter], self.port[self.proxycounter])
@@ -298,11 +305,19 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                 self.combocounter += 1
             
             if self.combocounter >= len(self.usernames): break
+
         if self.useproxies == 'y':
+            time.sleep(1)
             self.update_proxyon()
         else:
+            time.sleep(1)
             self.update_proxyoff()
+        
         try:
+            activeip, activeport = (self.get_latest_proxy()).split(':')
+            time.sleep(1)
+            if activeip == '0.0.0.0':
+                print(f'Ran out of {bcolors.WARNING}working proxies{bcolors.ENDC}.')
             input(f'Checking {bcolors.UNDERLINE}finished{bcolors.ENDC}, press any key to exit...')
         except EOFError:
             pass
