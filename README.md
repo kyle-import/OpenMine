@@ -14,7 +14,7 @@ First, you will need to install Python. You must use a Python version above `3.0
 OpenMine will check if all the account credentials (email:password) provided are valid or invalid for Minecraft.
 
 OpenMine, a fork of Minecraft Account Checker, implements preliminary support for 
-- Checking/using HTTP or HTTPS proxies 
+- Checking/using HTTP or HTTPS proxies **(rotating proxies recommended)**
 - Saving Minecraft account usernames 
 - User-friendly CLI.
 
