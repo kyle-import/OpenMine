@@ -1,13 +1,8 @@
 import threading, requests, json
-import ctypes, time, os, sys, msvcrt
+import ctypes, time, os, sys
 from colorama import Fore, init, Style
 from requests.exceptions import ConnectionError
 from json.decoder import JSONDecodeError
-
-if os.name == 'nt':
-    os.system("mode con cols=100 lines=35")
-else:
-    pass
 
 logo = '''
  ██████╗ ██████╗ ███████╗███╗   ██╗███╗   ███╗██╗███╗   ██╗███████╗
@@ -45,6 +40,12 @@ class Minecraft:
         self.valid = 0
         self.ticker = 0
 
+    def update_title(self, message):
+        if os.name == 'nt':
+            ctypes.windll.kernel32.SetConsoleTitleW(message)
+        else:
+            sys.stdout.write(f"\x1b]2;{message}\x07")
+
     def load_combos(self):
         if os.path.exists("combo.txt"):
             with open("combo.txt", "r") as f:
@@ -54,7 +55,7 @@ class Minecraft:
                         self.passwords.append(line.split(":")[-1])
             if not len(self.usernames): return None
             return True
-        ctypes.windll.kernel32.SetConsoleTitleW("Minecraft Account Checker | Error"); print("{}Error\n{}No combo file found: 'combo.txt'".format(Fore.YELLOW, Fore.WHITE)); time.sleep(10); exit()
+        update_title("Minecraft Account Checker | Error"); print("{}Error\n{}No combo file found: 'combo.txt'".format(Fore.YELLOW, Fore.WHITE)); time.sleep(10); exit()
 
     def load_proxies(self):
         if os.path.exists("proxies.txt"):
@@ -65,14 +66,11 @@ class Minecraft:
                         self.port.append(line.split(":")[-1])
             if not len(self.ip): return None
             return True
-        ctypes.windll.kernel32.SetConsoleTitleW("Minecraft Account Checker | Error"); print("{}Error\n{}No proxy file found: 'combo.txt'".format(Fore.YELLOW, Fore.WHITE)); time.sleep(10); exit()
+        update_title("Minecraft Account Checker | Error"); print("{}Error\n{}No proxy file found: 'combo.txt'".format(Fore.YELLOW, Fore.WHITE)); time.sleep(10); exit()
     
     def get_latest_proxy(self):
         latest_proxy = self.workingproxies[0]
         return latest_proxy
-
-    def title(self):
-        ctypes.windll.kernel32.SetConsoleTitleW("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
 
     def log(text):
         livetime = '['+strftime("%Y-%m-%d %H:%M:%S", gmtime())+'] '
@@ -128,7 +126,7 @@ class Minecraft:
                         with open("Valid.txt", "a") as f: f.write("{}:{}\n".format(username, password))
                     self.valid += 1
                     self.ticker += 1
-                    self.title()
+                    self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                     if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
@@ -136,7 +134,7 @@ class Minecraft:
                 else:
                     self.invalid += 1
                     self.ticker += 1
-                    self.title()
+                    self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                     if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
@@ -145,14 +143,14 @@ class Minecraft:
                 self.connectionerror += 1
                 if self.checkproxies == 'y':
                     self.ticker += 1
-                    self.title()
+                    self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                     if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
                     self.workingproxies.pop(0)
                 else:
                     self.ticker += 1
-                    self.title()
+                    self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                     if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
@@ -161,14 +159,14 @@ class Minecraft:
                 self.connectionerror += 1
                 if self.checkproxies == 'y':
                     self.ticker += 1
-                    self.title()
+                    self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                     if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
                     self.workingproxies.pop(0)
                 else:
                     self.ticker += 1
-                    self.title()
+                    self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                     if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyon()
@@ -188,7 +186,7 @@ class Minecraft:
                         with open("Valid.txt", "a") as f: f.write("{}:{}\n".format(username, password))
                     self.valid += 1
                     self.ticker += 1
-                    self.title()
+                    self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                     if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyoff()
@@ -196,7 +194,7 @@ class Minecraft:
                 else:
                     self.invalid += 1
                     self.ticker += 1
-                    self.title()
+                    self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                     if self.ticker >= 8:
                         self.ticker = 0
                         self.update_proxyoff()
@@ -204,7 +202,7 @@ class Minecraft:
             except ConnectionError:
                 self.connectionerror += 1
                 self.ticker += 1
-                self.title()
+                self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                 if self.ticker >= 8:
                     self.ticker = 0
                     self.update_proxyoff()
@@ -212,7 +210,7 @@ class Minecraft:
             except JSONDecodeError:
                 self.connectionerror += 1
                 self.ticker += 1
-                self.title()
+                self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
                 if self.ticker >= 8:
                     self.ticker = 0
                     self.update_proxyoff()
@@ -253,7 +251,12 @@ class Minecraft:
 
     def main(self):
         os.system('cls' if os.name == 'nt' else 'clear')
-        ctypes.windll.kernel32.SetConsoleTitleW("OpenMine - Minecraft Account Checker | Setup")
+        if os.name == 'nt': 
+            os.system("mode con cols=100 lines=35") 
+            ctypes.windll.kernel32.SetConsoleTitleW("OpenMine - Minecraft Account Checker | Setup")
+        else: 
+            os.system("printf '\e[9;1t'")
+            sys.stdout.write("\x1b]2;OpenMine - Minecraft Account Checker | Setup\x07")
         print(logo)
         print("\nVersion v1.0")
         print("A lightweight & open-source minecraft account checker for educational purposes.\n")
@@ -270,7 +273,7 @@ class Minecraft:
                         if load_proxy is not None:
                             pass
                         else:
-                            os.system('cls' if os.name == 'nt' else 'clear'); ctypes.windll.kernel32.SetConsoleTitleW("OpenMine - Minecraft Account Checker | Error"); print("{bcolors.FAIL}Error\n{bcolors.ENDC}Please put your proxies inside of 'proxies.txt'"); time.sleep(10); exit()
+                            os.system('cls' if os.name == 'nt' else 'clear'); update_title("OpenMine - Minecraft Account Checker | Error"); print(f"{bcolors.FAIL}Error\n{bcolors.ENDC}Please put your proxies inside of 'proxies.txt'"); time.sleep(10); exit()
                         self.checkproxies = (input(f"{bcolors.WARNING}> {bcolors.ENDC}Check proxies? (Do not use for rotating proxies) (y/n): "))
                         if self.checkproxies == 'y':
                             pass
@@ -286,7 +289,7 @@ class Minecraft:
                     continue
             self.start_checking()
         else:
-            os.system('cls' if os.name == 'nt' else 'clear'); ctypes.windll.kernel32.SetConsoleTitleW("OpenMine - Minecraft Account Checker | Error"); print("{bcolors.FAIL}Error\n{bcolors.ENDC}Please put your combos inside of 'combo.txt'"); time.sleep(10); exit()
+            os.system('cls' if os.name == 'nt' else 'clear'); update_title("OpenMine - Minecraft Account Checker | Error"); print(f"{bcolors.FAIL}Error\n{bcolors.ENDC}Please put your combos inside of 'combo.txt'"); time.sleep(10); exit()
 
 
 Minecraft().main()
