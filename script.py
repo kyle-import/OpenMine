@@ -12,6 +12,12 @@ logo = '''
  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
 '''
 
+def update_title(message):
+        if os.name == 'nt':
+            ctypes.windll.kernel32.SetConsoleTitleW(message)
+        else:
+            sys.stdout.write(f"\x1b]2;{message}\x07")
+
 class bcolors:
     HEADER = '\033[95m'
     CYAN = '\u001b[36m'
