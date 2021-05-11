@@ -78,27 +78,42 @@ class Minecraft:
     
     def update_proxyon(self): 
         os.system('cls' if os.name == 'nt' else 'clear')
-        print(logo)
-        print("\nVersion v1.0")
-        print("A lightweight & open-source minecraft account checker for educational purposes.\n")
         activeip, activeport = (self.get_latest_proxy()).split(':')
-        print(f'HTTP PROXY IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC} - {bcolors.UNDERLINE}{activeip}:{activeport}{bcolors.ENDC}')
-        print(f'OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.')
-        print(f'                      [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.')
-        print(f'                      [{bcolors.FAIL}{self.invalid}{bcolors.ENDC}/{len(self.usernames)}] bad accounts.')
-        print(f'                      [{bcolors.FAIL}{self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] proxy errors.')
+        print(f'''
+ ██████╗ ██████╗ ███████╗███╗   ██╗███╗   ███╗██╗███╗   ██╗███████╗
+██╔═══██╗██╔══██╗██╔════╝████╗  ██║████╗ ████║██║████╗  ██║██╔════╝
+██║   ██║██████╔╝█████╗  ██╔██╗ ██║██╔████╔██║██║██╔██╗ ██║█████╗  
+██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██║╚██╔╝██║██║██║╚██╗██║██╔══╝  
+╚██████╔╝██║     ███████╗██║ ╚████║██║ ╚═╝ ██║██║██║ ╚████║███████╗
+ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
+Version v1.0
+A lightweight & open-source minecraft account checker for educational purposes.
+
+HTTP PROXY IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC} - {bcolors.UNDERLINE}{activeip}:{activeport}{bcolors.ENDC}
+OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.
+                      [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.
+                      [{bcolors.FAIL}{self.invalid}{bcolors.ENDC}/{len(self.usernames)}] bad accounts.
+                      [{bcolors.FAIL}{self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] proxy errors.
+        ''')
 
     def update_proxyoff(self):
         os.system('cls' if os.name == 'nt' else 'clear')
-        print(logo)
-        print("\nVersion v1.0")
-        print("A lightweight & open-source minecraft account checker for educational purposes.\n") 
-        print(f'PROXYLESS IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC}')
-        print(f'OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.')
-        print(f'                      [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.')
-        print(f'                      [{bcolors.FAIL}{self.invalid}{bcolors.ENDC}/{len(self.usernames)}] bad accounts.')
-        print(f'                      [{bcolors.FAIL}{self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] connection errors.')
-            
+        print(f'''
+ ██████╗ ██████╗ ███████╗███╗   ██╗███╗   ███╗██╗███╗   ██╗███████╗
+██╔═══██╗██╔══██╗██╔════╝████╗  ██║████╗ ████║██║████╗  ██║██╔════╝
+██║   ██║██████╔╝█████╗  ██╔██╗ ██║██╔████╔██║██║██╔██╗ ██║█████╗  
+██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██║╚██╔╝██║██║██║╚██╗██║██╔══╝  
+╚██████╔╝██║     ███████╗██║ ╚████║██║ ╚═╝ ██║██║██║ ╚████║███████╗
+ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
+Version v1.0
+A lightweight & open-source minecraft account checker for educational purposes.
+
+PROXYLESS IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC}
+OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.
+                      [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.
+                      [{bcolors.FAIL}{self.invalid}{bcolors.ENDC}/{len(self.usernames)}] bad accounts.
+                      [{bcolors.FAIL}{self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] connection errors.
+        ''')
         
     
     def check_proxies(self, ip, port):
@@ -127,7 +142,7 @@ class Minecraft:
                     self.valid += 1
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                    if self.ticker >= 8:
+                    if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyon()
                     
@@ -135,7 +150,7 @@ class Minecraft:
                     self.invalid += 1
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                    if self.ticker >= 8:
+                    if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyon()
                     
@@ -144,14 +159,14 @@ class Minecraft:
                 if self.checkproxies == 'y':
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                    if self.ticker >= 8:
+                    if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyon()
                     self.workingproxies.pop(0)
                 else:
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                    if self.ticker >= 8:
+                    if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyon()
 
@@ -160,14 +175,14 @@ class Minecraft:
                 if self.checkproxies == 'y':
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                    if self.ticker >= 8:
+                    if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyon()
                     self.workingproxies.pop(0)
                 else:
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                    if self.ticker >= 8:
+                    if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyon()
 
@@ -187,7 +202,7 @@ class Minecraft:
                     self.valid += 1
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                    if self.ticker >= 8:
+                    if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyoff()
                     
@@ -195,7 +210,7 @@ class Minecraft:
                     self.invalid += 1
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                    if self.ticker >= 8:
+                    if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyoff()
                     
@@ -203,7 +218,7 @@ class Minecraft:
                 self.connectionerror += 1
                 self.ticker += 1
                 self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                if self.ticker >= 8:
+                if self.ticker >= (0.8*self.threads):
                     self.ticker = 0
                     self.update_proxyoff()
 
@@ -211,7 +226,7 @@ class Minecraft:
                 self.connectionerror += 1
                 self.ticker += 1
                 self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
-                if self.ticker >= 8:
+                if self.ticker >= (0.8*self.threads):
                     self.ticker = 0
                     self.update_proxyoff()
 
@@ -267,7 +282,7 @@ class Minecraft:
                 try: 
                     self.threads = int(input(f"{bcolors.WARNING}> {bcolors.ENDC}Threads: "))
                     self.saveusername = (input(f"{bcolors.WARNING}> {bcolors.ENDC}Save usernames? (y/n): "))
-                    self.useproxies = (input(f"{bcolors.WARNING}> {bcolors.ENDC}Use proxies? (y/n): "))
+                    self.useproxies = (input(f"{bcolors.WARNING}> {bcolors.ENDC}Use proxies? (Rotating proxies are recommended) (y/n): "))
                     if self.useproxies == 'y':
                         load_proxy = self.load_proxies()
                         if load_proxy is not None:
