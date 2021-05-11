@@ -19,7 +19,7 @@ OpenMine, a fork of Minecraft Account Checker, implements preliminary support fo
 - User-friendly CLI.
 
 ### Current issues
-- ~~Need a lot of cleanup + more stable CLI updates that don't rely on tick-based updating. ~~
+- <strike>Need a lot of cleanup + more stable CLI updates that don't rely on tick-based updating.</strike>
 - Ratelimited proxies will be reused because we can't understand how to properly detect when a proxy is ratelimited by Mojang's API (we'll fix it soon)
 - Need to fix an issue when proxies run out, it will error.
 
