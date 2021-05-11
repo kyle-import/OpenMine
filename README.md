@@ -3,7 +3,7 @@ A lightweight & open-source minecraft account checker that supports Windows, Mac
 
 ![](img/checkgui.png)
 
-### Windows installation
+### Installation
 
 You will have to have a few things installed before running the checker. This installation guide assumes that you are on a 64bit Windows, MacOS, or Linux system.
 
