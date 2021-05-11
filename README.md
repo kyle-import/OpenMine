@@ -19,9 +19,9 @@ OpenMine, a fork of Minecraft Account Checker, implements preliminary support fo
 - User-friendly CLI.
 
 ### Current issues
-- <strike>Need a lot of cleanup + more stable CLI updates that don't rely on tick-based updating.</strike>
+- Need a lot of cleanup <strike>+ more stable CLI updates that don't rely on tick-based updating.</strike>
 - Ratelimited proxies may be reused because we can't understand how to properly detect when a proxy is ratelimited by Mojang's API (we'll fix it soon)
-- Need to fix an issue when proxies run out, it will error.
+- <strike>Need to fix an issue when proxies run out, it will error.</strike>
 
 ### Usage
 1. Load your combos inside of 'combo.txt'
