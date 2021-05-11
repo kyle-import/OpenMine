@@ -1,23 +1,13 @@
 # OpenMine
-A lightweight & open-source minecraft account checker for educational purposes.
+A lightweight & open-source minecraft account checker that supports Windows, MacOS, and Linux. Built for educational purposes.
 
 ![](img/checkgui.png)
 
 ### Windows installation
 
-You will have to have a few things installed before running the checker. This installation guide assumes that you are on a 64bit Windows system.
+You will have to have a few things installed before running the checker. This installation guide assumes that you are on a 64bit Windows, MacOS, or Linux system.
 
-First, you will need to install Python. It's recommended to use either version `3.8.5` or `3.8.6`. You must use a Python version above `3.0`. 
-
-### Installing Python
-
-Go to the following link and download Python:
-
-`https://www.python.org/ftp/python/3.8.5/python-3.8.5-amd64.exe`
-
-Once you have opened the installer, make sure that you add Python to path. Your installer should look like this:
-
-<img align="center" src="https://i.imgur.com/iefWNyw.png">
+First, you will need to install Python. You must use a Python version above `3.0`. 
 
 
 ### Information
