@@ -137,7 +137,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
 Version v1.0
 A lightweight & open-source minecraft account checker for educational purposes.\n
-PROXYLESS IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC}\n
+PROXYLESS IS {bcolors.OKGREEN}ACTIVE{bcolors.ENDC}
 OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connectionerror}{bcolors.ENDC}/{len(self.usernames)}] checked accounts.
                       [{bcolors.OKGREEN}{self.valid}{bcolors.ENDC}/{len(self.usernames)}] good accounts.
                       [{bcolors.FAIL}{self.invalid}{bcolors.ENDC}/{len(self.usernames)}] bad accounts.
