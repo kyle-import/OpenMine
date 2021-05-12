@@ -54,7 +54,7 @@ class Minecraft:
 
     def load_combos(self):
         if os.path.exists("combo.txt"):
-            with open("combo.txt", "r") as f:
+            with open("./combo.txt", "r") as f:
                 for line in f.read().splitlines():
                     if ":" in line:
                         self.usernames.append(line.split(":")[0])
@@ -65,7 +65,7 @@ class Minecraft:
 
     def load_proxies(self):
         if os.path.exists("proxies.txt"):
-            with open("proxies.txt", "r") as g:
+            with open("./proxies.txt", "r") as g:
                 for line in g.read().splitlines():
                     if ":" in line:
                         self.ip.append(line.split(":")[0])
@@ -178,9 +178,9 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                 if "clientToken" in checkraw.text:
                     gameuser = checkjson['selectedProfile']['name']
                     if self.saveusername == 'y': 
-                        with open("Valid.txt", "a") as f: f.write("{}:{} ({})\n".format(username, password, gameuser))
+                        with open("./Valid.txt", "a") as f: f.write("{}:{} ({})\n".format(username, password, gameuser))
                     else: 
-                        with open("Valid.txt", "a") as f: f.write("{}:{}\n".format(username, password))
+                        with open("./Valid.txt", "a") as f: f.write("{}:{}\n".format(username, password))
                     self.valid += 1
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
@@ -245,9 +245,9 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                 if "clientToken" in checkraw.text:
                     gameuser = checkjson['selectedProfile']['name']
                     if self.saveusername == 'y': 
-                        with open("Valid.txt", "a") as f: f.write("{}:{} ({})\n".format(username, password, gameuser))
+                        with open("./Valid.txt", "a") as f: f.write("{}:{} ({})\n".format(username, password, gameuser))
                     else: 
-                        with open("Valid.txt", "a") as f: f.write("{}:{}\n".format(username, password))
+                        with open("./Valid.txt", "a") as f: f.write("{}:{}\n".format(username, password))
                     self.valid += 1
                     self.ticker += 1
                     self.update_title("OpenMine - Minecraft Account Checker | Valid: {} | Invalid: {} | Checked: {}/{} | Remaining: {}".format(self.valid, self.invalid, (self.valid + self.invalid + self.connectionerror), len(self.usernames), (len(self.usernames) - (self.valid + self.invalid + self.connectionerror))))
@@ -302,7 +302,7 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                 
                 if self.proxycounter >= len(self.ip): break
         else:
-            with open("proxies.txt") as g:
+            with open("./proxies.txt") as g:
                 for line in g:
                     self.workingproxies.append(line)
         while(True):
