@@ -302,9 +302,10 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
                 
                 if self.proxycounter >= len(self.ip): break
         else:
-            with open("./proxies.txt") as g:
-                for line in g:
-                    self.workingproxies.append(line)
+            with open("./proxies.txt", "r") as g:
+                for line in g.read().splitlines():
+                    if ":" in line:
+                        self.workingproxies.append(line)
         while(True):
             if threading.active_count() <= self.threads:
                 threading.Thread(target = combo_thread_starter).start()
