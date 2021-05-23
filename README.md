@@ -26,7 +26,7 @@ OpenMine, a fork of Minecraft Account Checker, implements preliminary support fo
 ### Usage
 1. Load your combos inside of 'combo.txt'
 2. **(optional)** Load your proxy list inside of 'proxies.txt' 
-3. Run python script.py
+3. Run python OpenMine.py
 4. Enter threads
 5. Sit back and relax, all valid account credentials will be outputted to Valid.txt
 
