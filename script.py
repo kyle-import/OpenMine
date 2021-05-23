@@ -321,10 +321,11 @@ OpenMine is running - [{bcolors.OKBLUE}{self.valid + self.invalid + self.connect
             self.update_proxyoff()
         
         try:
-            activeip, activeport = (self.get_latest_proxy()).split(':')
-            time.sleep(1)
-            if activeip == '0.0.0.0':
-                print(f'Ran out of {bcolors.WARNING}working proxies{bcolors.ENDC}.')
+            if self.useproxies == 'y':
+                activeip, activeport = (self.get_latest_proxy()).split(':')
+                time.sleep(1)
+                if activeip == '0.0.0.0':
+                    print(f'Ran out of {bcolors.WARNING}working proxies{bcolors.ENDC}.')
             input(f'Checking {bcolors.UNDERLINE}finished{bcolors.ENDC}, press any key to exit...')
         except EOFError:
             pass
