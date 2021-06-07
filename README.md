@@ -3,6 +3,8 @@ A lightweight & open-source minecraft account checker that supports Windows, Mac
 
 ![](img/checkgui.png)
 
+**The developers are NOT responsible for what you do with this tool.**
+
 ### Installation
 
 You will have to have a few things installed before running the checker. OpenMine assumes that you are on a 64bit Windows, MacOS, or Linux system.
